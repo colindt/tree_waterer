@@ -1,10 +1,10 @@
 const int TREE_N = 4;
-const int PIN_TREE_SENSOR[] = {A0, A1, A2, A3};
+const int PIN_TREE_SENSOR[] = {A0, A1, A2, A3}; //used as digital
 const int PIN_TREE_LED[] = {3, 4, 5, 6};
 int tree_sensor[4];
 
 const int TANK_N = 2;
-const int PIN_TANK_SENSOR[] = {A4, A5};
+const int PIN_TANK_SENSOR[] = {A4, A5}; //used as digital
 const int PIN_TANK_LED[] = {7, 8};
 const int PIN_TANK_LED_EMPTY = 9;
 int tank_sensor[2];
@@ -13,15 +13,16 @@ const int PIN_MOTOR = 2;
 const int PIN_MOTOR_LED = 10;
 bool motor_status = 0;
 
-const int SENSOR_THRESHOLD = 400;
 
 void setup() {
   for (int i = 0; i < TREE_N; i++) {
     pinMode(PIN_TREE_LED[i], OUTPUT);
+    pinMode(PIN_TREE_SENSOR[i], INPUT_PULLUP);
   }
 
   for (int i = 0; i < TANK_N; i++) {
     pinMode(PIN_TANK_LED[i], OUTPUT);
+    pinMode(PIN_TANK_SENSOR[i], INPUT_PULLUP);
   }
   pinMode(PIN_TANK_LED_EMPTY, OUTPUT);
 
@@ -60,27 +61,26 @@ void sensor_read_write() {
 
 void read_sensors() {
   for (int i = 0; i < TREE_N; i++) {
-    tree_sensor[i] = analogRead(PIN_TREE_SENSOR[i]);
+    tree_sensor[i] = digitalRead(PIN_TREE_SENSOR[i]);
   }
 
   for (int i = 0; i < TANK_N; i++) {
-    tank_sensor[i] = analogRead(PIN_TANK_SENSOR[i]);
+    tank_sensor[i] = digitalRead(PIN_TANK_SENSOR[i]);
   }
 }
 
 
 void led_write() {
   for (int i = 0; i < TREE_N; i++) {
-    digitalWrite(PIN_TREE_LED[i], tree_sensor[i] >= SENSOR_THRESHOLD);
+    digitalWrite(PIN_TREE_LED[i], tree_sensor[i]);
   }
 
   bool any_tank_sensors_on = false;
   for (int i = 0; i < TANK_N; i++) {
-    bool sensor_on = (tank_sensor[i] >= SENSOR_THRESHOLD);
-    if (sensor_on) {
+    if (tank_sensor[i]) {
       any_tank_sensors_on = true;
     }
-    digitalWrite(PIN_TANK_LED[i], sensor_on);
+    digitalWrite(PIN_TANK_LED[i], tank_sensor[i]);
   }
 
   digitalWrite(PIN_TANK_LED_EMPTY, !any_tank_sensors_on);
@@ -112,7 +112,7 @@ void serial_write_sensors() {
 bool any_tree_sensors_on() {
   bool result = false;
   for (int i = 0; i < TREE_N; i++) {
-    if (tree_sensor[i] >= SENSOR_THRESHOLD) {
+    if (tree_sensor[i]) {
       result = true;
       break;
     }
@@ -121,10 +121,10 @@ bool any_tree_sensors_on() {
 }
 
 
-void motor(bool on) {
-  motor_status = on;
-  digitalWrite(PIN_MOTOR,     on);
-  digitalWrite(PIN_MOTOR_LED, on);
+void motor(bool status_) {
+  motor_status = status_;
+  digitalWrite(PIN_MOTOR,     status_);
+  digitalWrite(PIN_MOTOR_LED, status_);
 }
 
 
