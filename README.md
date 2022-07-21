@@ -4,11 +4,17 @@ An Arduino-powered system for automatically watering a Christmas tree.
 
 Sucessfully used by me to achieve fully-automatic zero-intervention watering over two Christmas seasons. Just set it up and let it do its thing.
 
+![system closed photo](img/system_closed_photo.jpg)
+
+[**More photos**](photos.md)
+
+
 ## How it Works
 
-The watering device, consisting of a bucket of water and the main circuitry, sits next to the tree in a box disguised as a Christmas present. Water level sensors are mounted in the tree stand and connected to the Arduino over a Cat 5 cable. When the sensors detect a low water level in the stand, the controller turns on a small water pump in the bucket to pump water into the stand through a length of plastic tubing. It then turns the pump off when the water level sensors again detect water.
+The watering device, consisting of a bucket of water and the main circuitry, sits next to the tree in a box disguised as a Christmas present. Water level sensors are mounted in the tree stand and connected to the Arduino over a Cat5 cable. When the sensors detect a low water level in the stand, the controller turns on a small water pump in the bucket to pump water into the stand through a length of plastic tubing. It then turns the pump off when the water level sensors again detect water.
 
-The water sensors have four times redundancy, any one of them being enough to stop the pump, ensuring that a sensor failure is unlikely to overflow the stand and ruin the floor or surrounding gifts. Additionally, the sensors are "normally closed", meaning that accidentally unplugging them reads as "stand water full" to the controller, again ensuring that hardware failures don't ruin Christmas.
+There are four water sensors, and any one of them is enough to stop the pump, ensuring that a sensor failure is unlikely to overflow the stand and ruin the floor or surrounding gifts. Additionally, the sensors are "normally closed", meaning that accidentally unplugging them reads as "stand water full" to the controller, again ensuring that hardware failures don't ruin Christmas.
+
 
 ## The Waterer
 
@@ -25,6 +31,11 @@ The sensor board connects via an RJ45 jack.
 ### Schematic
 
 ![waterer schematic](img/waterer_schematic.png)
+
+### Photo
+
+![waterer electronics photo](img/waterer_electronics_photo.jpg)
+
 
 ## The Stand
 
